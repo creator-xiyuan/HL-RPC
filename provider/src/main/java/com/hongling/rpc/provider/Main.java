@@ -1,6 +1,7 @@
 package com.hongling.rpc.provider;
 
 import com.hongling.rpc.common.UserService;
+import com.hongling.rpc.rpc.RpcApplication;
 import com.hongling.rpc.rpc.register.ServiceRegister;
 import com.hongling.rpc.rpc.server.RpcRequestHandler;
 import io.vertx.core.Vertx;
@@ -9,10 +10,11 @@ import io.vertx.core.Vertx;
 public class Main {
 
     public static void main(String[] args) {
+        RpcApplication.init();
         ServiceRegister.register(UserService.class.getName(), UserServiceImpl.class);
 
         // todo 这里是否要划到 rpc 模块？
-        final int port = 8080;
+        final int port = RpcApplication.getRpcConfig().getServerPort();
         Vertx.vertx()
             .createHttpServer()
             .requestHandler(new RpcRequestHandler())

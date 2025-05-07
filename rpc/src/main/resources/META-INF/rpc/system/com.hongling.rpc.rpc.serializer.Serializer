@@ -1,0 +1,4 @@
+jdk=com.hongling.rpc.rpc.serializer.impl.JdkSerializer
+hessian=com.hongling.rpc.rpc.serializer.impl.HessianSerializer
+json=com.hongling.rpc.rpc.serializer.impl.JsonSerializer
+kryo=com.hongling.rpc.rpc.serializer.impl.KryoSerializer

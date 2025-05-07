@@ -1,9 +1,11 @@
 package com.hongling.rpc.rpc.server;
 
+import com.hongling.rpc.rpc.RpcApplication;
 import com.hongling.rpc.rpc.dto.RpcRequest;
 import com.hongling.rpc.rpc.dto.RpcResponse;
 import com.hongling.rpc.rpc.register.ServiceRegister;
-import com.hongling.rpc.rpc.serializer.JdkSerializer;
+import com.hongling.rpc.rpc.serializer.SerializerFactory;
+import com.hongling.rpc.rpc.serializer.impl.JdkSerializer;
 import com.hongling.rpc.rpc.serializer.Serializer;
 import io.vertx.core.Handler;
 import io.vertx.core.buffer.Buffer;
@@ -16,7 +18,8 @@ import java.lang.reflect.Method;
 public class RpcRequestHandler implements Handler<HttpServerRequest> {
     @Override
     public void handle(HttpServerRequest request) {
-        final Serializer serializer = new JdkSerializer();
+        // 实现动态配置：定义一个 序列化器名称 => 序列化器实现类对象 的 Map，然后根据名称从 Map 中获取对象（名称写在配置文件中）
+        final Serializer serializer = SerializerFactory.getInstance(RpcApplication.getRpcConfig().getSerializer());
 
         System.out.println("Received request: " + request.method() + " " + request.uri());
 

@@ -1,4 +1,6 @@
-package com.hongling.rpc.rpc.serializer;
+package com.hongling.rpc.rpc.serializer.impl;
+
+import com.hongling.rpc.rpc.serializer.Serializer;
 
 import java.io.*;
 

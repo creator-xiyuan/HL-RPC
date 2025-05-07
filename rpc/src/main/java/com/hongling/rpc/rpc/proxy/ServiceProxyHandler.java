@@ -2,11 +2,12 @@ package com.hongling.rpc.rpc.proxy;
 
 import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpResponse;
+import com.hongling.rpc.rpc.RpcApplication;
 import com.hongling.rpc.rpc.config.RpcConfig;
 import com.hongling.rpc.rpc.constant.RpcConstant;
 import com.hongling.rpc.rpc.dto.RpcRequest;
 import com.hongling.rpc.rpc.dto.RpcResponse;
-import com.hongling.rpc.rpc.serializer.JdkSerializer;
+import com.hongling.rpc.rpc.serializer.SerializerFactory;
 import com.hongling.rpc.rpc.serializer.Serializer;
 import com.hongling.rpc.rpc.utils.ConfigUtils;
 
@@ -18,7 +19,8 @@ public class ServiceProxyHandler implements InvocationHandler {
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         final RpcConfig rpcConfig = ConfigUtils.loadConfig(RpcConfig.class, RpcConstant.DEFAULT_CONFIG_PREFIX);
-        final Serializer serializer = new JdkSerializer();
+        // 加载配置的序列化器
+        final Serializer serializer = SerializerFactory.getInstance(RpcApplication.getRpcConfig().getSerializer());
 
         RpcRequest rpcRequest = RpcRequest.builder()
                 .serviceName(method.getDeclaringClass().getName())
